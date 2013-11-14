@@ -1,0 +1,22 @@
+\begin{section}{Vorlesung}
+  \begin{subsection}{Beweis zu LP-Runden: Ansatz II}
+    \begin{itemize}
+    \item Zulässigkeit: Sei $e \in U$. Da $e$ in $\leq h$ Mengen liegt und $\sum_{S\ni e} x_S \geq 1$ gilt, muss eine dieser Mengen $x_S \geq \frac{1}{h}$ erfüllen. Diese Menge wird von Algorithmus gewählt.
+    \item Güte: Sei $S \in \mathbb{S}$. Der Algorithmus erhöht $x_S$ um Faktor $\leq h$. Somit erhöht sich der Beitrag $x_S \cdot c_S$ dieser Menge zur Zielfunktion um Faktor $h$.
+    \end{itemize}
+  \end{subsection}
+  \begin{subsection}{Beweis zu Relaxierter komplementärer Schlupf}
+  Jede Variable $y_i$ hat einen Geldbetrag von $\alpha\beta b_i y_i$. D.h. die Variablen haben insgesamt $\alpha \beta \sum_{i=1}^m b_i y_i$ Geldeinheiten. Für jedes Paar $x_j,y_i$ von Variablen trasferiert $y_i$ insgesamt $\alpha a_{ij} x_j y_i$ an $x_j$. \\
+  Jedes $y_i$ besitzt dafü genügend Geld, da $\sum_j \alpha a_{ij} x_j y_i \leq \alpha \beta b_i y_i$ wegen des relaxierten dualen Komplementären Schlupfs (CS). \\
+  Jedes $x_j$ bekommt $\alpha x_j \sum_i a_{ij} y_i \geq c_j x_j$ wegen des primalen Komplementären Schlupfs.\\
+  Insgesamt erhalten die $x_j$ also mindestens den Betrag $\sum_{j=1}^n c_j x_j$. 
+  \end{subsection}
+  \begin{subsection}{Beweis zu Primal-Dual-Schema für SetCover}
+  \begin{itemize}
+    \item Zulässigkeit: \checkmark
+    \item Güte: es werden die relaxierten CS-Bedingungen mit $\alpha = 1$ und $\beta = h$ erfüllt.
+  \end{itemize}
+  Beispiel: $h=n$ [[Bild mit $n-1$ überlappendenen Mengen, die allen einen Knoten überdecken und zusätzlich den Knoten $e_n$ gemeinsam haben und Kosten $1$ besitzen, alle umschlossen von einer großen Menge mit Kosten $1+\varepsilon$]] \\
+  $\frac{h}{1+\varepsilon} \approx h$
+  \end{subsection}
+\end{section}

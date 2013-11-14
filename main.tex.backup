@@ -1,0 +1,110 @@
+\documentclass[a4paper,10pt]{article}
+%\documentclass[a4paper,10pt]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath}
+\usepackage{enumerate}
+\usepackage{stmaryrd}
+
+\title{Beweise zur Vorlesung Approximationsalgorithmen}
+\author{Andre Löffler}
+\date{\today}
+
+\pdfinfo{%
+  /Title    ()
+  /Author   ()
+  /Creator  ()
+  /Producer ()
+  /Subject  ()
+  /Keywords ()
+}
+
+\begin{document}
+
+\include{theorems}
+
+\maketitle
+\begin{section}{Vorlesung 1}
+ \begin{subsection}{Beweis zu Approximationsalgorithmus zu VertexCover}
+  Für die Zulässigkeit: Der Algorithmus liefert eine Knotenüberdeckung. Beweis durch Widerspruch: Wäre $e$ eine Kante die nicht überdeckt ist, dann wäre auch $M\cup\{e\}$ ein Matching, im Widerspruch zur Nicht-Erweiterbarkeit von $M$.\\
+  Für die Güte: Es gilt $|M|\leq\text{OPT}$. Die ausgegebene Knotenmenge $V'$ hat Größe $|V'|\leq2|M|\leq2\text{OPT}$, also $\frac{|V'|}{\text{OPT}}\leq2$.
+ \end{subsection}
+\end{section}
+
+\begin{section}{Vorlesung 2}
+\end{section}
+\begin{section}{Vorlesung 3}
+\end{section}
+\begin{section}{Vorlesung 4}
+  \begin{subsection}{Beweis zur Approximationsgüte vom Mehrwege-Schnitt}
+    $A_i$ ist isolierender Schnitt für $S_i$. $\sum_{i=1}^k (A_i) = 2\text{OPT}$, da jede Kante aus $A$ genau zwei Komponenten $K_i, K_j$ inzident.\\
+    Für $i=1,\cdots,k$ gilt $c(C_i) \leq c(A_i)$. \\
+    $c(C) \leq (1-\frac{1}{k})\sum_{i=1}^k c(C_i) \leq c(A_i) = 2(1-\frac{1}{k})\text{OPT}$
+  \end{subsection}
+\end{section}
+\begin{section}{Vorlesung 5}
+  \begin{subsection}{Beweis zu LP-Runden: Ansatz II}
+    \begin{itemize}
+    \item Zulässigkeit: Sei $e \in U$. Da $e$ in $\leq h$ Mengen liegt und $\sum_{S\ni e} x_S \geq 1$ gilt, muss eine dieser Mengen $x_S \geq \frac{1}{h}$ erfüllen. Diese Menge wird von Algorithmus gewählt.
+    \item Güte: Sei $S \in \mathbb{S}$. Der Algorithmus erhöht $x_S$ um Faktor $\leq h$. Somit erhöht sich der Beitrag $x_S \cdot c_S$ dieser Menge zur Zielfunktion um Faktor $h$.
+    \end{itemize}
+  \end{subsection}
+  \begin{subsection}{Beweis zu Relaxierter komplementärer Schlupf}
+  Jede Variable $y_i$ hat einen Geldbetrag von $\alpha\beta b_i y_i$. D.h. die Variablen haben insgesamt $\alpha \beta \sum_{i=1}^m b_i y_i$ Geldeinheiten. Für jedes Paar $x_j,y_i$ von Variablen trasferiert $y_i$ insgesamt $\alpha a_{ij} x_j y_i$ an $x_j$. \\
+  Jedes $y_i$ besitzt dafü genügend Geld, da $\sum_j \alpha a_{ij} x_j y_i \leq \alpha \beta b_i y_i$ wegen des relaxierten dualen Komplementären Schlupfs (CS). \\
+  Jedes $x_j$ bekommt $\alpha x_j \sum_i a_{ij} y_i \geq c_j x_j$ wegen des primalen Komplementären Schlupfs.\\
+  Insgesamt erhalten die $x_j$ also mindestens den Betrag $\sum_{j=1}^n c_j x_j$. 
+  \end{subsection}
+  \begin{subsection}{Beweis zu Primal-Dual-Schema für SetCover}
+  \begin{itemize}
+    \item Zulässigkeit: \checkmark
+    \item Güte: es werden die relaxierten CS-Bedingungen mit $\alpha = 1$ und $\beta = h$ erfüllt.
+  \end{itemize}
+  Beispiel: $h=n$ [[Bild mit $n-1$ überlappendenen Mengen, die allen einen Knoten überdecken und zusätzlich den Knoten $e_n$ gemeinsam haben und Kosten $1$ besitzen, alle umschlossen von einer großen Menge mit Kosten $1+\varepsilon$]] \\
+  $\frac{h}{1+\varepsilon} \approx h$
+  \end{subsection}
+\end{section}
+\begin{section}{Vorlesung 6}
+  \begin{subsection}{Beweis zu Unabhängige Mengen in $H^2$}
+    Betrachte kleinste dominierende Menge $D$ in $H$. Dann lassen sich die Knoten von $H$ mit $|D|$ Sternen überdecken. $\Rightarrow H^2$ lässt sich mit $|D|$ Cliquen überdecken. Jede dieser Cliquen enthält höchstens einen Knoten aus $U$.\\
+    $\Rightarrow |U| \leq |D| = \text{dom}(H)$
+  \end{subsection}
+  \begin{subsection}{Beweis zu Faktor 2 für metrisches $k$-Zentrum}
+    Sei $\{e_1, \cdots, e_{j^*}\}$ die Menge der Kanten mit Kosten $\leq OPT$. Der Graph $G_{j^*}$ enthält dominierende Menge der Größe $\text{dom}(G_{j^*})\leq k$. \\
+    $\Rightarrow |U_{j^*}| \leq \text{dom}(G_{j^*}) \leq k$\\
+    $\Rightarrow j \leq j^* \Rightarrow c(e_{j})= c(e_{j^*}) = OPT$
+  \end{subsection}
+  \begin{subsection}{Beweis zu Satz 6.3}
+    $U_j$ ist dominierende Menge in $G_j^2$ der Größe $ \leq k$. \\
+    Sei $v \in V$ beliebig. Dann gibt es einen Knoten $u$, der $v$ in $G_j^2$ dominiert.\\
+    $\Rightarrow$ es existiert ein $u-v-$Weg in $G_j$, der höchstens zwei Kanten durchläuft und dessen Länge $\leq 2\cdot c(e_j) \leq 2 \cdot OPT$
+  \end{subsection}
+  \begin{subsection}{Beweis zu Satz 6.4}
+    Angenommen, es gäbe einen $(2-\varepsilon)-$Approximationsalgorithmus $A$ \\
+    $\Rightarrow$ reduzieren von dominierender Menge. \\
+    \underline{Eingabe:} Graph $G = (V,E)$, $ k\leq |V|$\\
+    \underline{Frage:} Existiert eine dominierende Menge  und Größe $\leq k$.\\
+    Betrachte einen vollständigen Graphen $G'$ mit Knotenmenge $V$.\\
+    $c(u,v) = \begin{cases} 1 \text{ falls } (u,v) \in E \\ 2 \text{ falls } (u,v) \not\in E \end{cases}$
+    \begin{itemize}
+     \item angenommen, es existiert eine dominierende Menge in $G$ mit Größe $\leq k$.
+      $\Rightarrow OPT(G') \leq 1 \Rightarrow A(G') \leq 2-\varepsilon$\\
+     \item angenommen, $\text{dom}(G) > k \Rightarrow OPT(G') \geq 2 \Rightarrow A(G') \geq 2$
+    \end{itemize}
+    $\Rightarrow$ wir können dominierende Menge in $G$ lösen $\lightning$
+  \end{subsection}
+  \begin{subsection}{Definition: leichtester Knoten}
+   $S_H(u)$ sei der leichteste Knoten aus $N_H(u) \cup \{u\}$
+  \end{subsection}
+  \begin{subsection}{Lemma: }
+   Sei $U$ unabhängige Menge in $H^2$ von $S:= \{S_H(u)|u \in U\}$. Dann gilt $w(S) \leq \text{wdom}(H)$, wobei wdom$(H)$ das Gewicht der leichtesten dominierenden Menge in $H$ ist.
+  \end{subsection}
+  \begin{subsection}{Beweis}
+   Sei $D$ günstigste dominierende Menge in $H$. $\Rightarrow$ Knoten von $H$ lassen sich durch Sterne mit Zentrum in $D$ überdecken.
+  \end{subsection}
+
+
+
+\end{section}
+
+\end{document}

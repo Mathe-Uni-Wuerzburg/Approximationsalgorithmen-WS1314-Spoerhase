@@ -1,0 +1,44 @@
+\begin{section}{Vorlesung}
+  \begin{subsection}{Beweis zu Unabhängige Mengen in $H^2$}
+    Betrachte kleinste dominierende Menge $D$ in $H$. Dann lassen sich die Knoten von $H$ mit $|D|$ Sternen überdecken. $\Rightarrow H^2$ lässt sich mit $|D|$ Cliquen überdecken. Jede dieser Cliquen enthält höchstens einen Knoten aus $U$.\\
+    $\Rightarrow |U| \leq |D| = \text{dom}(H)$
+  \end{subsection}
+  \begin{subsection}{Beweis zu Faktor 2 für metrisches $k$-Zentrum}
+    Sei $\{e_1, \cdots, e_{j^*}\}$ die Menge der Kanten mit Kosten $\leq OPT$. Der Graph $G_{j^*}$ enthält dominierende Menge der Größe $\text{dom}(G_{j^*})\leq k$. \\
+    $\Rightarrow |U_{j^*}| \leq \text{dom}(G_{j^*}) \leq k$\\
+    $\Rightarrow j \leq j^* \Rightarrow c(e_{j})= c(e_{j^*}) = OPT$
+  \end{subsection}
+  \begin{subsection}{Beweis zu Satz 6.3}
+    $U_j$ ist dominierende Menge in $G_j^2$ der Größe $ \leq k$. \\
+    Sei $v \in V$ beliebig. Dann gibt es einen Knoten $u$, der $v$ in $G_j^2$ dominiert.\\
+    $\Rightarrow$ es existiert ein $u-v-$Weg in $G_j$, der höchstens zwei Kanten durchläuft und dessen Länge $\leq 2\cdot c(e_j) \leq 2 \cdot OPT$
+  \end{subsection}
+  \begin{subsection}{Beweis zu Satz 6.4}
+    Angenommen, es gäbe einen $(2-\varepsilon)-$Approximationsalgorithmus $A$ \\
+    $\Rightarrow$ reduzieren von dominierender Menge. \\
+    \underline{Eingabe:} Graph $G = (V,E)$, $ k\leq |V|$\\
+    \underline{Frage:} Existiert eine dominierende Menge  und Größe $\leq k$.\\
+    Betrachte einen vollständigen Graphen $G'$ mit Knotenmenge $V$.\\
+    $c(u,v) = \begin{cases} 1 \text{ falls } (u,v) \in E \\ 2 \text{ falls } (u,v) \not\in E \end{cases}$
+    \begin{itemize}
+     \item angenommen, es existiert eine dominierende Menge in $G$ mit Größe $\leq k$.
+      $\Rightarrow OPT(G') \leq 1 \Rightarrow A(G') \leq 2-\varepsilon$\\
+     \item angenommen, $\text{dom}(G) > k \Rightarrow OPT(G') \geq 2 \Rightarrow A(G') \geq 2$
+    \end{itemize}
+    $\Rightarrow$ wir können dominierende Menge in $G$ lösen $\lightning$
+  \end{subsection}
+  \begin{definition}[leichtester Knoten]
+   Mit $S_H(u)$ sei der leichteste Knoten aus $N_H(u) \cup \{u\}$ bezeichnet.
+  \end{definition}
+  \begin{lemma}[Leichteste Dominierende Menge]
+   Sei $U$ unabhängige Menge in $H^2$ von $S:= \{S_H(u)|u \in U\}$. Dann gilt $w(S) \leq \text{wdom}(H)$, wobei wdom$(H)$ das Gewicht der leichtesten dominierenden Menge in $H$ ist.
+  \end{lemma}
+  \begin{proof}{Beweis}
+   Sei $D$ günstigste dominierende Menge in $H$. $\Rightarrow$ Knoten von $H$ lassen sich durch Sterne mit Zentrum in $D$ überdecken. Diese Sterne sind Cliquen in $H^2$. Jede dieser Cliquen enthält höchstens einen Knoten aus $U$. Sei $u' \in U$ beliebig und $v \in D$ das Zentrum des Sterns, der $u'$ überdeckt.\\
+   $S_H(u) \leq x(v) \Rightarrow w(S) \leq w(D) = \text{wdom}(H)$
+  \end{proof}
+  \begin{subsection}{Beweis zu Satz 6.5}
+   $c(e_j) \leq OPT$ analog zu Lemma 6.2. Sei $v \in V$ beliebig, $v$ wird in $G_j^2$ von einem Knoten $u'$ dominiert. \\
+   $\Rightarrow$ Weg von $v$ zu $u$ über $\leq 2$ Kanten und zu $S_{G_j}(u)$ über $\leq 3$ Kanten. $\Rightarrow ALG \leq 3\cdot c(e_j) \leq 3\cdot OPT$ 
+  \end{subsection}
+\end{section}
