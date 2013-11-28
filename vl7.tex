@@ -1,0 +1,38 @@
+\begin{section}{Vorlesung}
+ \begin{subsection}{Beweis zum Lemma}
+  Sei $S_i$ die Menge von Knoten mit Grad $\geq i$ in $T$. Sei $E_i$ die Menge von Kanten in $T$, die inzident zu einem Knoten in $S_i$ sind. \\
+  Behauptung: Für jedes $i \geq \Delta(T)-l$ gilt:
+  \begin{enumerate}[i)]
+   \item $|E_i| \geq (i-1)\cdot |S_i| +1$
+   \item Jede Kante aus $G$, die verschiedene Zusammenhangskomponenten aus $T - E_i$ verbindet ist inzident zu Knoten aus $S_{i-1}$.
+   \item $\exists j: |S_{j-i}| \leq 2|S_j|$ und $j \geq \Delta(T) - l + 1$.
+  \end{enumerate}
+  Aus i) - iii) folgt das Lemma, denn:\\
+  \[OPT \geq \frac{(j-1)\cdot |S_j|+1}{|S_{j-1}|} \overset{\text{iii)}}{\geq} \frac{(j-q)\cdot |S_j|+1}{2|S_j|} > \frac{(j-1)}{2} \geq \frac{\Delta(T)-l}{2}\]
+  \begin{enumerate}[zu i)]
+   \item Es gibt $\geq i \cdot |S_i|$ viele Kanten-Inzidenten zu Knoten aus $S_i$. Es gibt $\leq |S_i|-1$ viele Kanten, die inzident zu \underline{zwei} Kanten aus $S_i$ sind, was i) zeigt:
+   $|E_i| \geq i \cdot |S_i| - (|S_i|-1) = (i-1) \cdot |S_i| +1$
+   \item Jede Kante $e$, die zwei Zusammenhangskomponenten aus $T-E_i$ verbindet, liegt entweder in $E_i$ oder schließt einen Kreis $C$ in $T$, der einen Knoten aus $S_i$ enthält. Da $T$ lokal optimal ist, muss $e$ somit zu einem Knoten aus $S_{i-1}$ inzident sein.
+   \item Andernfalls wäre $|S_{\Delta(T)-l}| > 2^l \cdot |S_{\Delta(T)}| \geq n \cdot |S_{\Delta(T)}|$.
+  \end{enumerate}
+ \end{subsection}
+ \begin{subsection}{Beweis zu Satz}
+  Definiere das \textit{Potential}: $\Phi(T) = \sum_{v\in V} 3^{\deg v}$\\
+  Es gilt: $\Phi(T) \leq n \cdot 3^n$.\\
+  $\Phi(T) \geq (n-2)\cdot 3^2 + 2 \cdot 3 > n$.\\
+  Zu zeigen ist, dass das Potential nach jeder Iteration höchstens $(1- \frac{2}{27\cdot n^3})$-mal so groß ist wie vorher.\\
+  Nach $\frac{27}{2} n^4 \log 3$ vielen Flips ist das Potential höchstens \\
+  $(1-\frac{2}{27 \cdot n^3})^{\frac{27}{2} n^4 \log 3} \cdot n \cdot 3^n \overset{1+x \leq e^x}{\leq} e^{-n\log 3}\cdot n \cdot 3^n = n$. \\
+  Angenommen, der Algorithmus reduziert den Grad eines Knoten $v$ von $i$ auf $i-1$, wobei $i \geq \Delta(T)-l$ und fügt eine Kante $(u,w)$ hinzu.
+  \begin{itemize}
+   \item Die Erhöhung von $\Phi$ aufgrund des Hinzufügens von $(u,w)$ ist $\leq 2\cdot (3^{i-1}-3^{i-2}) = 4\cdot 3^{i-2}$
+   \item Die Abnahme von $\Phi$ aufgrund von $v$ ist $\geq 3^i - 3^{i-1} = 2 \cdot 3^{i-1}$. Es gilt $3^l \leq 3 \cdot 3^{\log n} \leq 3 \cdot 2^{2\cdot \log n} = 3\cdot n^2$.
+  \end{itemize}
+  Die Gesamtabnahme von $\Phi$ ist somit mindestens
+  \[2\cdot 3^{i-1} - 4\cdot 3^{i-2} = \frac{2}{9}3^i\geq \frac{2}{9}3^{\Delta(T)-l}\geq \frac{2}{27\cdot n^3}3^{\Delta(T)} \geq \frac{2}{27\cdot n^3} \Phi(t)\]
+  Für den Ergebnisbaum $T'$ gilt also: $\Phi(T') \leq (1-\frac{2}{27\cdot n^3})\Phi(T)$
+
+ \end{subsection}
+
+
+\end{section}

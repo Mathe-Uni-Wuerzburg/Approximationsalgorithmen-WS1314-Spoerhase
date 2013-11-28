@@ -1,0 +1,20 @@
+\begin{section}{Vorlesung}
+  \begin{subsection}{FPTAS für Rucksack durch Skalierung}
+   Sei $O$ eine optimale Lösung. Für jedes Objekt $a$ gilt wegen der Skalierung $profit(a) - K \leq K \cdot profit'(a) \leq profit(a)$\\
+   $\Rightarrow K \cdot profit'(O) \geq profit(O) - nK$ \\
+   Da $S'$ optimale Lösung unter $profit'(\cdot)$ ist, gilt:
+   \begin{align*}
+   profit(S') &\geq K\cdot profit'(S') \geq K \cdot profit'(O) \geq profit(O) - nK \\
+   &= profit(O) + \epsilon P \geq profit(O) - \epsilon \cdot profit(O)\\
+   &\geq (1-\epsilon)\cdot profit(O)
+   \end{align*}
+  \end{subsection}
+  \begin{subsection}{Beweis zu Satz 7.1}
+   Laufzeit: $O(n^2\frac{P}{\epsilon P / n}) = O(\frac{n^3}{\epsilon})$
+  \end{subsection}
+  \begin{subsection}{Beweis zu Satz 7.3}
+   Angenommen, es gibt ein FPTAS für $\Pi$ mit Laufzeit $q(|I_u|, \frac{1}{\epsilon})$ wobei $q$ ein Polynom ist. Setze nun $\epsilon := \frac{1}{p(|I_u|)}$. Dann ist der Zielwert der von FPTAS erreichten Lösung höchstens $(1+\epsilon) \cdot OPT < OPT + \epsilon \cdot p(|I_u|) = OPT +1 $.\\
+   Das heißt, der FPTAS bestimmt dann sogar eine optimale Lösung. \\
+   Die Laufzeit ist $q(|I_u|, \frac{1}{\epsilon}) = q(|I_u|, p(|I_u|))$, was polynomiell in $|I_u|$ ist.
+  \end{subsection}
+\end{section}

@@ -1,0 +1,17 @@
+\begin{section}{Vorlesung}
+  \begin{subsection}{FPTAS für Rucksack durch Skalierung}
+   Sei $O$ eine optimale Lösung. Für jedes Objekt $a$ gilt wegen der Skalierung $profit(a) - K \leq K \cdot profit'(a) \leq profit(a)$\\
+   $\Rightarrow K \cdot profit'(O) \geq profit(O) - nK$ \\
+   Da $S'$ optimale Lösung unter $profit'(\cdot)$ ist, gilt:
+   \begin{align*}
+   profit(S') &\geq K\cdot profit'(S') \geq K \cdot profit'(O) \geq profit(O) - nK \\
+   &= profit(O) + \epsilon P \geq profit(O) - \epsilon \cdot profit(O)\\
+   &\geq (1-\epsilon)\cdot profit(O)
+   \end{align*}
+  \end{subsection}
+  \begin{subsection}{Beweis zu Satz 7.1}
+   Laufzeit: $O(n^2\frac{P}{\epsilon P / n}) = O(\frac{n^3}{\epsilon})$
+  \end{subsection}
+
+
+\end{section}
