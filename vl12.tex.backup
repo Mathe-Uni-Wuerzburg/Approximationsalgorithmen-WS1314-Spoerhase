@@ -1,0 +1,20 @@
+\begin{section}{Mehrwegeschnitte per LP-Runden}
+  \underline{Eing.:} Graph $G =(V,E)$, Kosten $c: E \rightarrow \mathcal{N}$, Terminale $s_1,\cdots,s_k \in V$.\\
+  \underline{Ges.:} Partitionierung $V = C_1 \cup \cdots \cup C_k$ mit $s_i \in C_i$ für $i = 1,\cdots,k$, so dass die Kosten von $F=\underbrace{\bigcup_{i=1}^{k} \delta(C_i)}_{\text{Menge der Kanten mit genau einem Endpunkt in }C_i}$ minimal sind.\\
+  IPL: $\min \frac{1}{2} \sum_{e\in E} c_e \sum_{i=1}^k z_e^i$\\
+      $\text{s.t. } z_e^i \geq x_u^i-x_v^i$   $\forall e=(u,v)\in E, i = 1,\cdots,k$\\
+      $z_e^i \geq x_v^i-x_u^i$   $\forall e=(u,v)\in E, i = 1,\cdots,k$\\
+      $x_{s_i} = 1$   $i = 1,\cdots,k$\\
+      $\sum_{i=1}^k x_u^i = 1$   $ \forall c \in V$\\
+      $x_u^i \in \{0,1\}$\\     
+  \underline{$L_1$-Metrik:} $x\in \mathcal{R}^k,, x^i \overset{\wedge}{=} i$-te Koordinate von $x$. $||x-y||_1 := \sum_{i=1}^k x^i - y^i$\\
+  \underline{LP-Relaxierung:} 
+  \begin{itemize}
+   \item ersetze $x_u^i\in\{0,1\}$ durch $x_u^i\geq 0$
+   \item In optimaler Lösung gilt $z_e^i = |x_u^i - x_v^i|$ für $e=(u,v)$
+   \item $\sum_{i=1}^k z_e^i = \sum_{i=1}^k |x_u^i - x_v^i| = ||x_u -x_v||_1$ wobei $x_u =(x_u^1,\cdots,x_u^k)$
+   \item $\Delta_k = \{x\in\mathcal{R}^k | x^i \geq 0, \sum_{i=1}^k x^i = 1\}$
+  \end{itemize}
+
+  
+\end{section}

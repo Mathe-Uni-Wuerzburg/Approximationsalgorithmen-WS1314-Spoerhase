@@ -1,0 +1,68 @@
+\begin{section}{Mehrwegeschnitte per LP-Runden}
+  \underline{Eing.:} Graph $G =(V,E)$, Kosten $c: E \rightarrow \mathcal{N}$, Terminale $s_1,\cdots,s_k \in V$.\\
+  \underline{Ges.:} Partitionierung $V = C_1 \cup \cdots \cup C_k$ mit $s_i \in C_i$ für $i = 1,\cdots,k$, so dass die Kosten von $F=\underbrace{\bigcup_{i=1}^{k} \delta(C_i)}_{\text{Menge der Kanten mit genau einem Endpunkt in }C_i}$ minimal sind.\\
+  IPL: $\min \frac{1}{2} \sum_{e\in E} c_e \sum_{i=1}^k z_e^i$\\
+      $\text{s.t. } z_e^i \geq x_u^i-x_v^i$   $\forall e=(u,v)\in E, i = 1,\cdots,k$\\
+      $z_e^i \geq x_v^i-x_u^i$   $\forall e=(u,v)\in E, i = 1,\cdots,k$\\
+      $x_{s_i} = 1$   ($i = 1,\cdots,k$)\\
+      $\sum_{i=1}^k x_u^i = 1$   $ \forall c \in V$\\
+      $x_u^i \in \{0,1\}$\\     
+  \underline{$L_1$-Metrik:} $x\in \mathcal{R}^k,, x^i \overset{\wedge}{=} i$-te Koordinate von $x$. $||x-y||_1 := \sum_{i=1}^k x^i - y^i$\\
+  \underline{LP-Relaxierung:} 
+  \begin{itemize}
+   \item ersetze $x_u^i\in\{0,1\}$ durch $x_u^i\geq 0$
+   \item In optimaler Lösung gilt $z_e^i = |x_u^i - x_v^i|$ für $e=(u,v)$
+   \item $\sum_{i=1}^k z_e^i = \sum_{i=1}^k |x_u^i - x_v^i| = ||x_u -x_v||_1$ wobei $x_u =(x_u^1,\cdots,x_u^k)$
+   \item $\Delta_k = \{x\in\mathcal{R}^k | x^i \geq 0, \sum_{i=1}^k x^i = 1\}$
+   \item $e_i = (0,\cdots,0,\underbrace{1}_{i\text{-te Stelle}},0,\cdots,0)$
+   \item LP-Relaxierung:\\
+   $\min \sum_{e=(u,v)\in E} c_e \cdot ||x_u-x_v||_1$\\
+   s.t. $x_{s_i} = e_i (i = 1,\cdots,k)$\\
+   $x_u \in \Delta_k \forall u \in V$
+  \end{itemize}
+  Definiere $B(s_i,r) = \{v\in V | \frac{1}{2} ||x_v - e_i||_1 \leq r\}$, $B(s_i,1) = V$\\
+  \underline{Alg.:}\\
+  \begin{itemize}
+   \item Bestimme optimale Lösung $x$ für LP-Relaxierung
+   \item für $i = 1,\cdots,k$ do $C_i \leftarrow \emptyset$
+   \item wähle $v\in (0,1)$ zufällig und gleichverteilt
+   \item wähle Permutation $\pi$ auf $\{1,\cdots,k\}$ zufällig und gleichverteilt.
+   \item $x \leftarrow \emptyset $ \#alle bereits zugewiesenen Knoten
+   \item for $i=1,\cdots,k$
+   \begin{itemize}
+    \item $C_{\pi(i)} \leftarrow B(s_{\pi(i)},r)-x$
+   \end{itemize}
+   \item $C_{\pi(k)} = V-X$
+   \item return $(C_1,\cdots,C_k)$
+  \end{itemize}
+  
+  \begin{lemma}
+   Für jeden Index $l$ und alle Knoten $u,v \in V$ gilt: \\
+   $|x_u^l-x_v^l| \leq \frac{1}{2}||x_u-x_v||_1$
+  \end{lemma}
+  \begin{proof}
+   o.E.: $x_u^l \geq x_v^l$: $|x_u^l-x_v^l| = x_u^l - x_v^l = (1-\sum_{j\neq l} x_u^j)-(1-\sum_{j\neq l} x_v^j) = \sum_{j \neq l} (x_v^j-x_u^j) \leq \sum_{j\neq l} |x_v^j - x_u^j|$\\
+   $\Rightarrow 2|x_u^l - x_v^l| \leq ||x_u -x_v||_1$
+  \end{proof}
+  
+  \begin{lemma}
+   $u \in B(s_i,r) \Leftrightarrow 1-x_u^i \leq r$
+  \end{lemma}
+  \begin{proof}
+    $u \in B(s_i,r) \Leftrightarrow \frac{1}{2}||e_i-x_u||_1 \leq r$\\
+    Äq.: $\frac{1}{2}\sum_{l\neq i} x_u^l + \frac{1}{2}(1-x_u^i) \leq r$\\
+    Behauptung folgt wegen $\sum_{l\neq i} x_u^l = 1- x_u^i$
+  \end{proof}
+  \begin{lemma}
+   Sei $uv \in E$. Die Wahrscheinlichkeit, dass $u$ und $v$ vom Algorithmus getrennt werden ist $\leq \frac{3}{4}||x_u-x_v||_1$
+  \end{lemma}
+  Beweis später.\\
+  \begin{satz}
+   Obiger Algorithmus ist ein randomisierter $\frac{3}{2}$-Approximationsalgorithmus.
+  \end{satz}
+  \begin{proof}
+    Sei $Z_{uv}$ eine Zufallsvariable aus $\{0,1\}$ mit $Z_{uv} = 1 \Leftrightarrow u,v$ werden vom Algorithmus getrennt.\\
+    Sei $W := \sum_{e=(u,v)\in E} c_e\cdot Z_{uv}$ eine Zufallsvariable, die berechneten Kosten des Lösungsalgorithmus.\\
+    $E[W] = E[\sum_{e=(u,v)\in E} c_e\cdot Z_{uv}] = \sum_{e=(u,v)\in E} c_e\cdot E[Z_{uv}] = \sum c_e Pr[u,v\text{ werden getrennt}] \leq  \sum c_e \frac{3}{4}||x_u-x_v||_1=\frac{1}{2}\cdot \frac{3}{2}\sum c_e ||x_u-x_v||_1 \leq \frac{3}{2}OPT$
+  \end{proof}
+\end{section}
