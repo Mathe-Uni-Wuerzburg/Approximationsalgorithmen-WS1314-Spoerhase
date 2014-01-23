@@ -1,0 +1,52 @@
+\begin{section}{Steinerwald-Problem}
+ \underline{Eingabe:} Graph $G=(V,E)$, Kosten $c: E \mapsto \mathbb{N}$, $k$ Knotenpaare $s_i,t_i \in V$.\\
+ \underline{Ziel:} Finde kostengünstigste Menge $F\subseteq E$, so dass in $(V,F)$ jedes der Paare $s_i,t_i$ verbunden ist.\\
+ \underline{ILP:} $\min \sum_{e \in E} c_e\cdot x_e$\\
+ s.t. $\sum_{e\in \delta(s)} x_e \geq 1$   $S\in S_i$ für ein $i$\\
+ $x_e \in \{0,1\} \forall e\in E$\\
+ \underline{LP-Relaxierung:} $x_e \in \{0,1\} \mapsto x_e \geq 0$\\
+ $S_i := \{S\subseteq V| |S\cap \{s_i,t_i\}| = 1\}$\\
+ \underline{Duales LP:} 
+ \begin{align*}
+  \max &\sum_{S: \exists i: S \subseteq S_i} y_s\\
+  \text{s.t.} &\sum_{S: e\in \delta(S)} y_s\leq c_e &\forall e\in E\\
+  &y_s \geq 0 &\exists i: S\in S_i\\                          
+ \end{align*}
+ \underline{Algorithmus:} 
+ \begin{itemize}
+  \item $y \leftarrow 0$
+  \item $F \leftarrow \emptyset$
+  \item $e \leftarrow 0$
+  \item while nicht alle Paare $s_i,t_i$ sind verbunden:
+  \begin{itemize}
+   \item $e\leftarrow e+1$
+   \item $\mathcal{C}:= \{$Zhgs.komponente $ C $ von $ (V,F)| \exists i: |C\cap \{s_i,t_i\}| = 1\}$
+   \item erhöhe $y_e$ für alle $c\in \mathcal{C}$ gleichförmig, bis für ein $e_l \in \delta(c'),c'\in \mathcal{C}$ gilt: $c_{e_l} = \sum_{S: e_l\in \delta(s)} y_s$
+   \item $F\leftarrow F + e_l$
+  \end{itemize}
+  \item $F' \leftarrow F$
+  \item for $k \leftarrow l$ to $1$:
+  \begin{itemize}
+   \item if $F' - e_k$ zulässig: $F' \leftarrow F' - e_k$
+  \end{itemize}
+ \end{itemize}
+ \underline{Beobachtung:} Die konstruierte Primal- und Duallösung ist zulässig.
+ 
+ \begin{lemma}[13.1]
+  Für jedes $\mathcal{C}$ in jeder Iteration gilt:
+  \[\sum_{c\in\mathcal{C}} |\delta(c) \cap F'| \leq 2\cdot |\mathcal{C}|\text{.}\]
+ \end{lemma}
+ Beweis später.
+ \begin{satz}[13.2]
+  Obiger Algorithmus ist eine 2-Approximation.
+ \end{satz}
+ \begin{proof}
+  $\sum_{e\in F'} c_e = \sum_{e\in F'} \sum_{S: e\in\delta(S)} y_S = \sum_S |\delta(S)\cap F'| \cdot y_S$\\
+  Zeigen per Induktion über di Anzahl der Iterationen, dass 
+  \[\sum_S |F'\cap \delta(S)| \cdot y_S \leq 2\cdot \sum_S y_S \text{.   (1)}\]
+  Daraus folgt die Behauptung über die schwache Duallösung.
+ \end{proof}
+
+
+
+\end{section}
