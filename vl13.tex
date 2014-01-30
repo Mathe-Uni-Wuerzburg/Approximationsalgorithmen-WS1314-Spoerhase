@@ -1,11 +1,13 @@
 \begin{section}{Steinerwald-Problem}
  \underline{Eingabe:} Graph $G=(V,E)$, Kosten $c: E \mapsto \mathbb{N}$, $k$ Knotenpaare $s_i,t_i \in V$.\\
  \underline{Ziel:} Finde kostengünstigste Menge $F\subseteq E$, so dass in $(V,F)$ jedes der Paare $s_i,t_i$ verbunden ist.\\
- \underline{ILP:} $\min \sum_{e \in E} c_e\cdot x_e$\\
- s.t. $\sum_{e\in \delta(s)} x_e \geq 1$   $S\in S_i$ für ein $i$\\
- $x_e \in \{0,1\} \forall e\in E$\\
+ \underline{ILP:} 
+ \begin{align*} \min &\sum_{e \in E} c_e\cdot x_e\\
+ \text{s.t. } &\sum_{e\in \delta(s)} x_e \geq 1 &S\in S_i \text{ für ein }i\\
+ &x_e \in \{0,1\} &\forall e\in E\\
+ \end{align*}
  \underline{LP-Relaxierung:} $x_e \in \{0,1\} \mapsto x_e \geq 0$\\
- $S_i := \{S\subseteq V| |S\cap \{s_i,t_i\}| = 1\}$\\
+ $S_i := \{S\subseteq V: |S\cap \{s_i,t_i\}| = 1\}$\\
  \underline{Duales LP:} 
  \begin{align*}
   \max &\sum_{S: \exists i: S \subseteq S_i} y_s\\
@@ -13,26 +15,26 @@
   &y_s \geq 0 &\exists i: S\in S_i\\                          
  \end{align*}
  \underline{Algorithmus:} 
- \begin{itemize}
-  \item $y \leftarrow 0$
-  \item $F \leftarrow \emptyset$
-  \item $e \leftarrow 0$
-  \item while nicht alle Paare $s_i,t_i$ sind verbunden:
-  \begin{itemize}
-   \item $e\leftarrow e+1$
-   \item $\mathcal{C}:= \{$Zhgs.komponente $ C $ von $ (V,F)| \exists i: |C\cap \{s_i,t_i\}| = 1\}$
-   \item erhöhe $y_e$ für alle $c\in \mathcal{C}$ gleichförmig, bis für ein $e_l \in \delta(c'),c'\in \mathcal{C}$ gilt: $c_{e_l} = \sum_{S: e_l\in \delta(s)} y_s$
-   \item $F\leftarrow F + e_l$
-  \end{itemize}
-  \item $F' \leftarrow F$
-  \item for $k \leftarrow l$ to $1$:
-  \begin{itemize}
-   \item if $F' - e_k$ zulässig: $F' \leftarrow F' - e_k$
-  \end{itemize}
- \end{itemize}
+ 
+ \begin{lstlisting}[mathescape]
+y $\leftarrow$ 0
+F $\leftarrow \emptyset$
+e $\leftarrow$ 0
+while nicht alle Paare $s_i,t_i$ sind verbunden:
+  e $\leftarrow$ e+1
+  $\mathcal{C}:= \{$Zhgs.komponente C von (V,F)$| \exists i: |C\cap \{s_i,t_i\}| = 1\}$
+  erhoehe $y_e$ fuer alle $c\in \mathcal{C}$ gleichfoermig, 
+    bis fuer ein $e_l \in \delta(c'),c'\in \mathcal{C}$ gilt: 
+    $c_{e_l} = \sum_{S: e_l\in \delta(s)} y_s$
+  F$\leftarrow$ F + $e_l$
+F' $\leftarrow$ F
+for k $\leftarrow$ l to 1:
+  if F' - $e_k$ zulässig: F' $\leftarrow$ F' - $e_k$
+ \end{lstlisting}
  \underline{Beobachtung:} Die konstruierte Primal- und Duallösung ist zulässig.
  
  \begin{lemma}[13.1]
+ \label{131}
   Für jedes $\mathcal{C}$ in jeder Iteration gilt:
   \[\sum_{c\in\mathcal{C}} |\delta(c) \cap F'| \leq 2\cdot |\mathcal{C}|\text{.}\]
  \end{lemma}
@@ -44,9 +46,26 @@
   $\sum_{e\in F'} c_e = \sum_{e\in F'} \sum_{S: e\in\delta(S)} y_S = \sum_S |\delta(S)\cap F'| \cdot y_S$\\
   Zeigen per Induktion über di Anzahl der Iterationen, dass 
   \[\sum_S |F'\cap \delta(S)| \cdot y_S \leq 2\cdot \sum_S y_S \text{.   (1)}\]
-  Daraus folgt die Behauptung über die schwache Duallösung.
+  Daraus folgt die Behauptung über die schwache Duallösung. (1) gilt zu Beginn wegen $y=0$.\\
+  Angenommen, dass (1) zu Beginn einer Iteration gilt. In diesen Iterationen werden alle $y_c, c\in \mathcal{C}$ um den gleichen Betrag, sagen wir $\varepsilon \geq 0$, erhöht. Die Erhöhung der beiden Seiten von (1) ist somit $\varepsilon \sum_{c\in\mathcal{C}} |\delta(c) \cap F'|$. Die Erhöhung der rechten Seite ist $2\cdot \varepsilon \cdot |\mathcal{C}|$. Nach Lemma \ref{131} gilt die Ungleichung also auch nach der Iteration.
  \end{proof}
-
-
-
+ 
+ \begin{proposition}[Beobachtung]
+  Zu jedem Zeitpunkt bildet die Kantenmenge $F$ einen Wald.
+ \end{proposition}
+ \begin{proof}
+  Per Induktion über die Anzahl der Iterationen:\\
+  Beginn: $F = \emptyset$. Jede Kante, die wir neu hinzufügen verbindet zwei Zusammenhangskomponenten von $F$.
+ \end{proof}
+ 
+ \begin{proof}[Proof zu Lemma \ref{131}]
+  Betrachte Iteration $i$:\\
+  Sei $F_i = \{e_1,\cdots,e_{i-1}\}$ die Menge der Kanten, die zu Beginn der Iteration schon im Wald sind. Betrachte die Menge noch dazukommenden Kanten $H=F'-F_i$. Beobachte, dass $F_i \cup H \supseteq F'$ eine zulässige Lösung ist. Wir behaupten, dass wenn wir eine Kante $e\in H$ aus $F_i \cap H$ entfernen, so ist die Lösung nicht mehr zulässig. Das liegt an den Löschprozeduren am Ende des Algorithmus. Wenn $e_{i-1}$ für die Löschung betrachtet wurde, gilt $F' = F' \cup H$. Daher sind alle bereits betrachteten Kanten notwendig. Dies sind genau die Kanten in $H$.\\
+  Wir bilden aus $(V,F_i \cup H)$ einen neuen Graphen indem wir die Zusammenhangskomponenten von $(V,F_i)$ zu je einem Knoten kontrahieren. Die Kantenmenge des Graphen ist $H$. Seine Kontenmenge sei $V'$. $(V',H)$ ist ein Wald. Wir färben alle Knoten von $V'$ ($\Leftrightarrow$ Zusammenhangskomponenten von $(V,F_i)$). Alle Knoten, die zu Zusammenhangskomponenten von $\mathcal{C}$ korrespondieren, werden rot gefärbt. Alle restlichen Knoten werden blau gefärbt. Sei $R$ die Menge aller roten Knoten in $V'$ und $B$ die Menge der blauen Knoten $v$ mit $deg(v) > 0$.\\
+  Die behauptete Ungleichung lässt sich umschreiben:\\
+  Die rechte Seite ist $2|R|$. Die linke Seite ist $\sum_{v\in R} deg(v)$. Wir behaupten, dass keine Knoten in $B$ genau Grad $1$ hat. Dann folgt:
+  \[\sum_{v\in R} deg(v) = \sum_{v \in R \cup B} deg(v) -\sum_{v \in B} deg(v)\leq 2\cdot(|R|+|B|) - 2 \cdot |B| = 2 \cdot |R|\]
+  Angenommmen, ein blauer Knoten $v$ habe Grad $1$ und sei $\mathcal{C}$ die korrespondiere Zusammenhangskomponente und $e$ die inzidente Kante in $H$. Da $e$ notwendig ist, muss sie auf einem $(s_j,t_j)$-Pfad in $(V,F_i\cup H)$ liegen.\\
+  Das heißt, $|C \cap \{s_i,t_i\}| = 1$ und somit $c \in \mathcal{C}$. $\lightning$
+ \end{proof}
 \end{section}

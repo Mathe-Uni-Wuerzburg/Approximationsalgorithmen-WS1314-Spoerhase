@@ -1,0 +1,17 @@
+\begin{section}{Gradbeschränkte minimale Spannbäume}
+\underline{Eingabe:} $G=(V,E)$, $c: E \mapsto \mathbb{N}$, $W\subseteq V$, und Schranken $b_v \geq 1$ für alle $v\in W$.\\
+\underline{Ziel:} Kostenminimaler Spannbaum $T$ von $G$, sodass $deg_T(v) \leq b_v$ für alle $v\in W$.
+\underline{NP-schwer:} Durch Beschränkung jedes Knotens auf $b_v = 2$ erhält man einen Hamilton-Pfad.\\
+$S \subseteq V: E(S) := \{uv \in E | u\in S,v\in S\}$\\
+\underline{LP-Relaxierung:} 
+\begin{align*}
+ \min&\sum_{e\in E} c_e \cdot x_e\\
+ \text{s.t. }&\sum_{e\in E} x_e = |v| -1 &\text{     (i)}\\
+ &\sum_{e\in E(S)} x_e \leq |S| -1 &\forall S \subseteq V, |S| \geq 2\text{     (ii)}\\
+ &\sum_{e\in \delta(V)} x_e \leq b_v &\forall v\in W\text{     (iii)}\\ 
+ &x_e \geq 0 &\forall e \in E
+\end{align*}
+\begin{satz}[14.1] \label{141}
+ Es gibt einen Polynomialzeit-Algorithmus, der einen Spannbaum $T$ mit Kosten $\leq OPT_{LP}$ produziert (falls das LP eine Lösung hat), so dass $deg_T(v) \leq b_v +1 $ für alle $v\in W$.
+\end{satz}
+\end{section}

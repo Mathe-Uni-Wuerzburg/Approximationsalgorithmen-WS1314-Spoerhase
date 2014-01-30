@@ -26,3 +26,4 @@
 \contentsline {section}{\numberline {11}Vorlesung}{7}
 \contentsline {section}{\numberline {12}Mehrwegeschnitte per LP-Runden}{7}
 \contentsline {section}{\numberline {13}Steinerwald-Problem}{8}
+\contentsline {section}{\numberline {14}Gradbeschr\IeC {\"a}nkte minimale Spannb\IeC {\"a}ume}{10}
